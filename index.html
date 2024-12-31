@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remote Control</title>
+  <style>
+    /* Center the remote in the viewport */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000;
+    }
+
+    /* Remote container styling */
+    .remote {
+      display: grid;
+      gap: 20px;
+      grid-template-rows: auto auto;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(145deg, #444, #222);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 10px 10px 20px #111, -10px -10px 20px #555;
+      width: 100%;
+      max-width: 350px;
+    }
+
+    .section {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+    }
+
+    .label {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      grid-column: span 3;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    /* Button styling */
+    button {
+      width: 80px;
+      height: 80px;
+      border: none;
+      border-radius: 50%;
+      background-color: #555;
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px #000;
+      transition: all 0.3s ease;
+      font-family: "Georgia", serif; /* Roman numeral-like font */
+    }
+
+    button:hover {
+      background-color: #666;
+    }
+
+    button:active {
+      background-color: #333;
+    }
+
+    /* Styling for modes */
+    .mode {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker Registered'))
+      .catch((err) => console.log('Service Worker Failed to Register', err));
+  }
+</script>
+
+
+  <div class="remote">
+    <!-- Signals Section -->
+    <div class="section">
+      <div class="label">Signals</div>
+      <button onclick="playSound('Ascend.mp3')">1</button>
+      <button onclick="playSound('Descend.mp3')">2</button>
+      <button onclick="playSound('Help signal.mp3')">3</button>
+      <button onclick="playSound('Out of air.mp3')">4</button>
+      <button onclick="playSound('Custom 1.mp3')">5</button>
+      <button onclick="playSound('Custom 2.mp3')">6</button>
+    </div>
+
+    <!-- Modes Section -->
+    <div class="section">
+      <div class="label">Modes</div>
+      <button class="mode" onclick="setVolume(0.33)">I</button>
+      <button class="mode" onclick="setVolume(0.66)">II</button>
+      <button class="mode" onclick="setVolume(1)">III</button>
+    </div>
+  </div>
+
+  <script>
+    let currentAudio = null; // Track the current audio object
+    let volumeLevel = 1; // Default volume is 100%
+
+    // Play sound function
+    function playSound(soundFile) {
+      if (currentAudio) {
+        currentAudio.pause(); // Stop current sound
+        currentAudio.currentTime = 0; // Reset to the start
+      }
+      currentAudio = new Audio(soundFile);
+      currentAudio.volume = volumeLevel; // Set volume based on current mode
+      currentAudio.play();
+    }
+
+    // Set volume function
+    function setVolume(level) {
+      volumeLevel = level; // Update global volume level
+      alert(`Volume set to ${Math.round(level * 100)}%`); // Optional: notify user
+    }
+  </script>
+</body>
+</html>
