@@ -145,8 +145,15 @@
   // Set volume function
   function setVolume(level) {
     volumeLevel = level; // Update global volume level
-    alert(`Volume set to ${Math.round(level * 100)}%`); // Optional: notify user
+
+    // If audio is currently playing, adjust its volume dynamically
+    if (currentAudio && !currentAudio.paused) {
+      currentAudio.volume = volumeLevel;
+    }
+
+    
   }
 </script>
+
 </body>
 </html>
