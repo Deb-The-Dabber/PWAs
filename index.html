@@ -19,7 +19,7 @@
   /* Remote container styling */
   .remote {
     display: grid;
-    gap: 15px;
+    gap: 40px;
     grid-template-rows: auto auto auto;
     justify-content: center;
     align-items: center;
@@ -28,7 +28,7 @@
     border-radius: 15px;
     box-shadow: 10px 10px 20px #111, -10px -10px 20px #555;
     width: 100%;
-    max-width: 200px; /* Narrower width for a vertical rectangle */
+    max-width: 250px; /* Narrower width for a vertical rectangle */
     height: 350px; /* Increased height for verticality */
   }
 
@@ -85,6 +85,14 @@
     background-color: #999;
     transform: translateY(1px);
   }
+  
+  /* Adjust alignment for buttons 2, 4, and 6 */
+    .signals-section button:nth-child(2),
+    .signals-section button:nth-child(4),
+    .signals-section button:nth-child(6) {
+      margin-right: 50px; /* Add space to the right */
+    }
+  
 </style>
 
 </head>
