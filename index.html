@@ -31,10 +31,17 @@
       max-width: 350px;
     }
 
-    .section {
+    .signals-section {
       display: grid;
       gap: 15px;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr; /* Two columns */
+      text-align: center;
+    }
+
+    .modes-section {
+      display: grid;
+      gap: 15px;
+      grid-template-columns: repeat(3, 1fr); /* Three buttons in one row */
       text-align: center;
     }
 
@@ -42,42 +49,51 @@
       color: white;
       font-size: 1rem;
       margin-bottom: 10px;
-      grid-column: span 3;
+      grid-column: span 2; /* Span across 2 columns for Signals */
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    .modes-label {
+      grid-column: span 3; /* Span across 3 columns for Modes */
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 10px;
       text-shadow: 1px 1px 2px #000;
     }
 
     /* Button styling */
     button {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 60px;
       border: none;
-      border-radius: 50%;
-      background-color: #555;
+      border-radius: 10px;
+      background-color: #666;
       cursor: pointer;
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 18px;
       color: white;
-      text-shadow: 1px 1px 2px #000;
-      transition: all 0.3s ease;
-      font-family: "Georgia", serif; /* Roman numeral-like font */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, background-color 0.2s ease;
     }
 
     button:hover {
-      background-color: #666;
+      background-color: #777;
+      transform: translateY(-2px);
     }
 
     button:active {
-      background-color: #333;
+      background-color: #999;
+      transform: translateY(1px);
     }
 
-    /* Styling for modes */
-    .mode {
-      font-size: 1.5rem;
+    /* Adjust alignment for buttons 2, 4, and 6 */
+    .signals-section button:nth-child(2),
+    .signals-section button:nth-child(4),
+    .signals-section button:nth-child(6) {
+      margin-left: 37px; /* Add space to the right */
     }
   </style>
 </head>
 <body>
-
 
 <script>
   if ('serviceWorker' in navigator) {
@@ -87,48 +103,48 @@
   }
 </script>
 
-
-  <div class="remote">
-    <!-- Signals Section -->
-    <div class="section">
-      <div class="label">Signals</div>
-      <button onclick="playSound('Ascend.mp3')">1</button>
-      <button onclick="playSound('Descend.mp3')">2</button>
-      <button onclick="playSound('Help-Distress signal.mp3')">3</button>
-      <button onclick="playSound('Out of air.mp3')">4</button>
-      <button onclick="playSound('Custom 1.mp3')">5</button>
-      <button onclick="playSound('Custom 2.mp3')">6</button>
-    </div>
-
-    <!-- Modes Section -->
-    <div class="section">
-      <div class="label">Modes</div>
-      <button class="mode" onclick="setVolume(0.33)">I</button>
-      <button class="mode" onclick="setVolume(0.66)">II</button>
-      <button class="mode" onclick="setVolume(1)">III</button>
-    </div>
+<div class="remote">
+  <!-- Signals Section -->
+  <div class="signals-section">
+    <div class="label">Signals</div>
+    <button onclick="playSound('Ascend.mp3')">Ascend</button>
+    <button onclick="playSound('Descend.mp3')">Descend</button>
+    <button onclick="playSound('Help-Distress signal.mp3')">Help</button>
+    <button onclick="playSound('Out of air.mp3')">No Air</button>
+    <button onclick="playSound('Custom 1.mp3')">5</button>
+    <button onclick="playSound('Custom 2.mp3')">6</button>
   </div>
 
-  <script>
-    let currentAudio = null; // Track the current audio object
-    let volumeLevel = 1; // Default volume is 100%
+  <!-- Modes Section -->
+  <div class="modes-section">
+    <div class="modes-label">Modes</div>
+    <button class="mode" onclick="setVolume(0.33)">I</button>
+    <button class="mode" onclick="setVolume(0.66)">II</button>
+    <button class="mode" onclick="setVolume(1)">III</button>
+  </div>
+</div>
 
-    // Play sound function
-    function playSound(soundFile) {
-      if (currentAudio) {
-        currentAudio.pause(); // Stop current sound
-        currentAudio.currentTime = 0; // Reset to the start
-      }
-      currentAudio = new Audio(soundFile);
-      currentAudio.volume = volumeLevel; // Set volume based on current mode
-      currentAudio.play();
-    }
+<script>
+  let currentAudio = null; // Track the current audio object
+  let volumeLevel = 1; // Default volume is 100%
 
-    // Set volume function
-    function setVolume(level) {
-      volumeLevel = level; // Update global volume level
-      alert(`Volume set to ${Math.round(level * 100)}%`); // Optional: notify user
+  // Play sound function
+  function playSound(soundFile) {
+    if (currentAudio) {
+      currentAudio.pause(); // Stop current sound
+      currentAudio.currentTime = 0; // Reset to the start
     }
-  </script>
+    currentAudio = new Audio(soundFile);
+    currentAudio.volume = volumeLevel; // Set volume based on current mode
+    currentAudio.play();
+  }
+
+  // Set volume function
+  function setVolume(level) {
+    volumeLevel = level; // Update global volume level
+    alert(`Volume set to ${Math.round(level * 100)}%`); // Optional: notify user
+  }
+</script>
 </body>
 </html>
+
